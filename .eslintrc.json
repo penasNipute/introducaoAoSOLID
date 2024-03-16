@@ -1,4 +1,4 @@
-{
+{s
   "env": {
     "es2020": true,
     "node": true,
@@ -15,10 +15,10 @@
     "ecmaVersion": 12,
     "sourceType": "module"
   },
-  "plugins": ["@typescript-eslint", "eslint-plugin-import-helpers", "prettier"],
+  "plugins": ["@typescript-eslint", "eslint-plugin-import-helpers", "prettier","eslint-prettier"],
   "rules": {
     "camelcase": "off",
-    "prettier/prettier": "error",
+    "prettier/prettier": ["error", { "endOfLine": "auto" }],
     "import/no-unresolved": "error",
     "@typescript-eslint/naming-convention": [
       "error",

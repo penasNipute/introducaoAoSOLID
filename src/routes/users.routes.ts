@@ -4,23 +4,28 @@ import { createUserController } from "../modules/users/useCases/createUser";
 import { listAllUsersController } from "../modules/users/useCases/listAllUsers";
 import { showUserProfileController } from "../modules/users/useCases/showUserProfile";
 import { turnUserAdminController } from "../modules/users/useCases/turnUserAdmin";
+import { UsersRepository } from "modules/users/repositories/implementations/UsersRepository";
 
 const usersRoutes = Router();
 
-usersRoutes.post("/", (request, response) =>
-  createUserController.handle(request, response)
+
+
+usersRoutes.post("/", (req, res) =>
+  createUserController.handle(req, res)
 );
 
-usersRoutes.patch("/:user_id/admin", (request, response) =>
-  turnUserAdminController.handle(request, response)
+
+
+usersRoutes.patch("/:user_id/admin", (req, res) =>
+  turnUserAdminController.handle(req, res)
 );
 
-usersRoutes.get("/:user_id", (request, response) =>
-  showUserProfileController.handle(request, response)
+usersRoutes.get("/:user_id", (req, res) =>
+  showUserProfileController.handle(req, res)
 );
 
-usersRoutes.get("/", (request, response) =>
-  listAllUsersController.handle(request, response)
+usersRoutes.get("/", (req, res) =>
+  listAllUsersController.handle(req, res)
 );
 
 export { usersRoutes };
