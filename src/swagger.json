@@ -1,0 +1,323 @@
+{
+  "openapi":"3.0.0",
+  "info":{
+    "title":"Introducao ao SOLID",
+    "description":"This is users creation API",
+    "version":"1.0.0.",
+    "contact":{
+      "email":"penasniputeDev@gmail.com"
+    }
+  },
+  "paths":{
+    "/users":{
+    "post":{
+      "tags":["Users"],
+      "summary":"Create a user",
+      "description":"Create a new user",
+      "requestBody":{
+        "content":{
+          "application/json":{
+            "schema":{
+              "type":"object",
+              "properties":{
+                "name":{
+                  "type":"string"
+                },
+                "email":{
+                  "type":"string",
+                  "format":"email"
+                }
+              },
+              "example":{
+                "name":"Penas Nipute",
+                "email":"penasniputeDev@gmail.com"
+              }
+            }
+          }
+        }
+      },
+      "responses":{
+        "201":{
+          "description":"Created a new user",
+          "content":{
+            "application/json":{
+              "schema":{
+                "type":"object",
+                "properties":{
+                    "id":{
+                      "type":"string",
+                      "format":"uuid"
+                    },
+                    "admin": {
+                      "type":"boolean",
+                      "default": false
+                    },
+                    "created_at": {
+                      "type":"string",
+                      "format":"date"
+                    },
+                    "name": {
+                      "type":"string"
+                    },
+                    "email": {
+                      "type":"string",
+                      "format":"email"
+                    },
+                    "updated_at": {
+                      "type":"string",
+                      "format":"date"
+                    }
+                  }
+                }
+              }
+            }
+          },
+        "400":{
+          "description":"User already exists",
+          "content":{
+            "application/json":{
+              "schema":{
+                "type":"object",
+                "properties":{
+                  "error":{
+                    "type":"string",
+                    "default":"User already exists!"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "get":{
+      "tags":["Users"],
+      "summary":"Get a list of users",
+      "description":"List all users only if user is admin",
+      "parameters":[{
+        "name":"user_id",
+        "in":"header",
+        "description": "Authorization token for accessing user data",
+        "required": true,
+        "schema":{
+          "user_id":{
+            "type":"string",
+            "format":"uuid"
+          }
+        }
+      }],
+      "responses":{
+        "200":{
+          "description":"Success",
+          "content":{
+            "application/json":{
+              "schema":{
+                "type":"array",
+                "items":{
+                  "type":"object",
+                  "properties":{
+                    "name":{
+                      "type":"string"
+                    },
+                    "email":{
+                      "type":"string",
+                      "format":"email"
+                    },
+                    "id":{
+                      "type":"string",
+                      "format":"uuid"
+                    },
+                    "created_at":{
+                      "type":"string",
+                      "format":"date"
+                    },
+                    "updated_at":{
+                      "type":"string",
+                      "format":"date"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "400":{
+          "description":"User doesn't exists!",
+          "content":{
+            "application/json":{
+              "schema":{
+                "type":"object",
+                "properties":{
+                  "error":{
+                    "type":"string",
+                    "default":"User not found"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "401":{
+          "description":"User isn't admin!",
+          "content":{
+            "application/json":{
+              "schema":{
+                "type":"object",
+                "properties":{
+                  "error":{
+                    "type":"string",
+                    "default":"Unauthorized: User is not an admin"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+
+    },
+    "/users/{user_id}":{
+      "get":{
+        "tags":["Users"],
+        "summary":"List user by the id",
+        "description":"Route to get especific user by the id given on request params",
+        "parameters":[{
+          "name":"user_id",
+          "in":"path",
+          "required":true,
+          "description":"user id",
+          "schema":{
+            "type":"string",
+            "format":"uuid"
+          }
+        }],
+        "responses":{
+          "200":{
+            "description":"User data",
+            "content":{
+              "application/json":{
+                "schema":{
+                  "type":"object",
+                  "properties":{
+                      "id":{
+                        "type":"string",
+                        "format":"uuid"
+                      },
+                      "admin": {
+                        "type":"boolean"
+                      },
+                      "created_at": {
+                        "type":"string",
+                        "format":"date"
+                      },
+                      "name": {
+                        "type":"string"
+                      },
+                      "email": {
+                        "type":"string",
+                        "format":"email"
+                      },
+                      "updated_at": {
+                        "type":"string",
+                        "format":"date"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+          "400":{
+            "description":"No user has the given id",
+            "content":{
+              "application/json":{
+                "schema":{
+                  "type":"object",
+                  "properties":{
+                    "error":{
+                      "type":"string",
+                      "default":"User not found!"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+
+      }
+    },
+    "/users/{user_id}/admin":{
+      "patch":{
+        "tags":["Users"],
+        "summary":"Turn user into admin",
+        "description":"Route to turn especific user admin by the id given on request params",
+        "parameters":[{
+          "name":"user_id",
+          "in":"path",
+          "required":true,
+          "description":"user id",
+          "schema":{
+            "type":"string",
+            "format":"uuid"
+          }
+        }],
+        "responses":{
+          "200":{
+            "description":"User data",
+            "content":{
+              "application/json":{
+                "schema":{
+                  "type":"object",
+                  "properties":{
+                      "id":{
+                        "type":"string",
+                        "format":"uuid"
+                      },
+                      "admin": {
+                        "type":"boolean",
+                        "default":true
+                      },
+                      "created_at": {
+                        "type":"string",
+                        "format":"date"
+                      },
+                      "name": {
+                        "type":"string"
+                      },
+                      "email": {
+                        "type":"string",
+                        "format":"email"
+                      },
+                      "updated_at": {
+                        "type":"string",
+                        "format":"date"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+          "400":{
+            "description":"No user has the given id",
+            "content":{
+              "application/json":{
+                "schema":{
+                  "type":"object",
+                  "properties":{
+                    "error":{
+                      "type":"string",
+                      "default":"User not found!"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+
+}
+}
+ 

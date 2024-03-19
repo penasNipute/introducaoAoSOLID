@@ -12,7 +12,16 @@ class TurnUserAdminController {
       const user = this.turnUserAdminUseCase.execute({user_id})
       return res.status(200).json(user)
     } catch (error) {
-      return res.status(404).json({error:error.message})
+      if (error.message === 'User not found') {
+        // Handle user not found error
+        return res.status(400).json({ error: 'User not found' });
+      } else if (error.message.startsWith("Forbidden:")) {
+        // Handle non-admin error
+        return res.status(403).json({ error: "Forbidden: User is already an admin" });
+      } else {
+        // Handle other errors
+        return res.status(500).json({ error: "Internal server error" });
+      }
     }
   }
 }

@@ -45,7 +45,7 @@ class UsersRepository implements IUsersRepository {
 
   turnAdmin(receivedUser: User): User {
       if (receivedUser.admin === true) {
-        throw new Error('User is already an admin'); // Lança erro se já for admin
+        throw new Error('Forbidden: User is already an admin'); // Lança erro se já for admin
       }
     
       receivedUser.admin = true;
